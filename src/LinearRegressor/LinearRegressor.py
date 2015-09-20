@@ -26,6 +26,7 @@ class LinearRegressor:
         if optimization is 'LeastSquares':
 
             self.optimizeLeastSquares(X, t)
+            self.evalLoss(X, t)
 
         elif optimization is 'GradientDescent':
 
@@ -80,7 +81,7 @@ class LinearRegressor:
             last_w = self.w
             last_loss = self.loss
 
-            dE = X.transpose()*X*self.w - X.transpose()*t + self.Lambda*self.w
+            dE = X.T*X*self.w - X.T*t + self.Lambda*self.w
 
             self.w -= self.alpha*dE
 
