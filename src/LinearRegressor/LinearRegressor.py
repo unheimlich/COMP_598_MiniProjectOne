@@ -1,6 +1,6 @@
+import numpy as np
 __author__ = 'andrew'
 
-import numpy as np
 
 class LinearRegressor:
 
@@ -14,7 +14,7 @@ class LinearRegressor:
         self.numVars = 0
         self.optimization = 'LeastSquares'
 
-    def train(self, X, T, optimization, learningRate, regularization):
+    def train(self, X, t, optimization, learningRate, regularization):
 
         self.alpha = learningRate
         self.Lambda = regularization
@@ -25,16 +25,18 @@ class LinearRegressor:
 
         if optimization is 'LeastSquares':
 
-            self.optimizeLeastSquares(X, T)
+            self.optimizeLeastSquares(X, t)
 
         elif optimization is 'GradientDescent':
 
-            self.optimizeGradientDescent(X, T)
+            self.optimizeGradientDescent(X, t)
 
 
     def predict(self, X):
 
-        y = 1
+        X = np.concatenate((np.matrix(np.ones([self.numObs, 1])), X), axis=1)
+
+        y = X*self.w
 
         return y
 
@@ -54,22 +56,47 @@ class LinearRegressor:
 
         return self.Lambda
 
-    def optimizeLeastSquares(self, X, T):
+    def optimizeLeastSquares(self, X, t):
 
         xt = X.transpose()
-        s = np.linalg.inv(xt*X)
 
-        self.w = s*xt*T
+        I = np.matrix(np.eye(self.numVars+1))
 
-    def optimizeGradientDescent(self, X, T):
+        C = self.Lambda*I + xt*X;
 
-        w = self.w
+        S = np.linalg.inv(C)
 
-        return w
+        self.w = S*xt*t
 
-    def evalLoss(self, X, T):
+    def optimizeGradientDescent(self, X, t):
 
-        e = np.array(T - X*self.w)**2
+        self.initWeights()
+        self.evalLoss(X, t)
+
+        dLoss = -1
+
+        while dLoss < -1e-6:
+
+            last_w = self.w
+            last_loss = self.loss
+
+            dE = X.transpose()*X*self.w - X.transpose()*t + self.Lambda*self.w
+
+            self.w -= self.alpha*dE
+
+            self.evalLoss(X, t)
+
+            dLoss = self.loss - last_loss
+
+            print(dLoss)
+
+            if dLoss > 0:
+
+                self.w = last_w
+
+    def evalLoss(self, X, t):
+
+        e = np.array(t - X*self.w)**2
 
         self.loss = 0.5*e.sum(axis=0)
 
