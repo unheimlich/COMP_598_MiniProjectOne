@@ -59,15 +59,15 @@ class LinearRegressor:
 
     def optimizeLeastSquares(self, X, t):
 
-        xt = X.transpose()
+        I = np.eye(self.numVars+1)
 
-        I = np.matrix(np.eye(self.numVars+1))
+        S = self.Lambda*I + np.dot(X.T,X);
 
-        C = self.Lambda*I + xt*X;
+        #S = np.linalg.inv(C)
 
-        S = np.linalg.inv(C)
+        #self.w = S*xt*t
 
-        self.w = S*xt*t
+	self.w = np.linalg.lstsq(S,np.dot(X.T,t))
 
     def optimizeGradientDescent(self, X, t):
 
@@ -80,8 +80,9 @@ class LinearRegressor:
 
             last_w = self.w
             last_loss = self.loss
-
-            dE = X.T*X*self.w - X.T*t + self.Lambda*self.w
+	
+	    S = np.dot(X.T,X)
+            dE = np.dot(S,self.w) - np.dot(X.T,t) + self.Lambda*self.w
 
             self.w -= self.alpha*dE
 
@@ -97,7 +98,7 @@ class LinearRegressor:
 
     def evalLoss(self, X, t):
 
-        e = np.array(t - X*self.w)**2
+        e = (t - np.dot(X,self.w))**2
 
         self.loss = 0.5*e.sum(axis=0)
 
