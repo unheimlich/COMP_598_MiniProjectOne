@@ -21,7 +21,7 @@ class LinearRegressor:
 
         [self.numObs, self.numVars] = X.shape
 
-        X = np.concatenate((np.matrix(np.ones([self.numObs, 1])), X), axis=1)
+        X = np.concatenate(np.ones([self.numObs, 1]), X), axis=1)
 
         if optimization is 'LeastSquares':
 
@@ -35,7 +35,7 @@ class LinearRegressor:
 
     def predict(self, X):
 
-        X = np.concatenate((np.matrix(np.ones([self.numObs, 1])), X), axis=1)
+        X = np.concatenate((np.ones([self.numObs, 1]), X), axis=1)
 
         y = X*self.w
 
