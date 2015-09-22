@@ -21,7 +21,7 @@ class LinearRegressor:
 
         [self.numObs, self.numVars] = X.shape
 
-        X = np.concatenate(np.ones([self.numObs, 1]), X), axis=1)
+        X = np.concatenate((np.ones([self.numObs, 1]), X), axis=1)
 
         if optimization is 'LeastSquares':
 
@@ -37,7 +37,7 @@ class LinearRegressor:
 
         X = np.concatenate((np.ones([self.numObs, 1]), X), axis=1)
 
-        y = X*self.w
+        y = np.dot(X,self.w)
 
         return y
 
@@ -63,11 +63,7 @@ class LinearRegressor:
 
         S = self.Lambda*I + np.dot(X.T,X);
 
-        #S = np.linalg.inv(C)
-
-        #self.w = S*xt*t
-
-	self.w = np.linalg.lstsq(S,np.dot(X.T,t))
+        self.w = np.linalg.lstsq(S,np.dot(X.T,t))[0]
 
     def optimizeGradientDescent(self, X, t):
 
@@ -81,8 +77,13 @@ class LinearRegressor:
             last_w = self.w
             last_loss = self.loss
 	
-	    S = np.dot(X.T,X)
+            S = np.dot(X.T,X)
             dE = np.dot(S,self.w) - np.dot(X.T,t) + self.Lambda*self.w
+
+            #y = np.dot(X, self.w)
+
+            #for i in range(0, self.numObs-1):
+               # self.w += self.alpha*(t[i] - y[i])*X[i, :].T
 
             self.w -= self.alpha*dE
 
@@ -98,7 +99,7 @@ class LinearRegressor:
 
     def evalLoss(self, X, t):
 
-        e = (t - np.dot(X,self.w))**2
+        e = np.power(t - np.dot(X,self.w), 2)
 
         self.loss = 0.5*e.sum(axis=0)
 
@@ -107,5 +108,5 @@ class LinearRegressor:
         hi = np.sqrt(12)/self.numVars+1
         lo = -hi
 
-        self.w = np.matrix(np.random.uniform(lo, hi, [self.numVars+1, 1]))
+        self.w = np.random.uniform(lo, hi, [self.numVars+1,])
 
