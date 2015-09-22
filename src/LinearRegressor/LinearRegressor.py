@@ -72,20 +72,29 @@ class LinearRegressor:
 
         dLoss = -1
 
+        S = np.dot(X.T,X)
+        T = np.dot(X.T,t)
+
+
+        iters = 0.0
+
         while dLoss < -1e-6:
+
+            lr = self.alpha*(2**-(iters/4))
+
+            iters += 1
 
             last_w = self.w
             last_loss = self.loss
-	
-            S = np.dot(X.T,X)
-            dE = np.dot(S,self.w) - np.dot(X.T,t) + self.Lambda*self.w
+
+            dE = np.dot(S,self.w) - T + self.Lambda*self.w
 
             #y = np.dot(X, self.w)
 
             #for i in range(0, self.numObs-1):
                # self.w += self.alpha*(t[i] - y[i])*X[i, :].T
 
-            self.w -= self.alpha*dE
+            self.w -= lr*dE
 
             self.evalLoss(X, t)
 
@@ -99,9 +108,9 @@ class LinearRegressor:
 
     def evalLoss(self, X, t):
 
-        e = np.power(t - np.dot(X,self.w), 2)
+        e = np.power(np.power(t - np.dot(X, self.w), 2.0), 0.5)
 
-        self.loss = 0.5*e.sum(axis=0)
+        self.loss = np.mean(e, axis=0, dtype=np.float64)
 
     def initWeights(self):
 
