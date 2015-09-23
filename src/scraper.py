@@ -19,7 +19,7 @@ unscrapedLinks = set([url])
 scrapedLinks = set([])
 counter = 0
 limit = 200
-path = "/Users/kylebrumsted/Documents/School/Fall2015/COMP598/Project1/scraped/"
+path = "../data/PartTwo/scraped"
 urlPrefix = "http://www.dailymail.co.uk"
 
 #as long as we have links we haven't explored, keep iterating
