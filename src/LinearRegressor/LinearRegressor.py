@@ -87,12 +87,12 @@ class LinearRegressor:
             last_w = self.w
             last_loss = self.loss
 
-            dE = np.dot(S,self.w) - T + self.Lambda*self.w
+            dE = (np.dot(S ,self.w) - T + self.Lambda*self.w)/self.numObs
 
             #y = np.dot(X, self.w)
 
             #for i in range(0, self.numObs-1):
-               # self.w += self.alpha*(t[i] - y[i])*X[i, :].T
+                #self.w += self.alpha*(t[i] - y[i])*X[i, :].T
 
             self.w -= lr*dE
 
