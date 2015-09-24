@@ -19,13 +19,14 @@ unscrapedLinks = set([url])
 scrapedLinks = set([])
 counter = 0
 limit = 200
-path = "/Users/kylebrumsted/Documents/School/Fall2015/COMP598/Project1/scraped/"
+path = "/Volumes/SeagateBackup/scraped/" 	#"/Users/kylebrumsted/Documents/School/Fall2015/COMP598/Project1/scraped/"
 urlPrefix = "http://www.dailymail.co.uk"
 
 #as long as we have links we haven't explored, keep iterating
 while unscrapedLinks:
 	# quit loop after scraping to a limit
-	if len(scrapedLinks) > limit: break
+	if counter > limit: break
+	#if (counter % 200) == 0: print(str(counter)+" pages scraped")
 
 	# remove top item from set
 	url = unscrapedLinks.pop()
@@ -33,7 +34,7 @@ while unscrapedLinks:
 	# try to open connection to website
 	try:
 		website = urllib.urlopen(url)
-	except IOError:
+	except IOError, InvalidURL:
 		print("[Scraper]:: Encountered malformed URL: "+url+". Will continue scraping...")
 		scrapedLinks.add(url)
 		continue
@@ -53,7 +54,7 @@ while unscrapedLinks:
 		htmlfile.write("<!--"+url+"-->\n")
 		htmlfile.write(data)
 		htmlfile.close()
-		print("Saved article #"+str(counter)+": "+url)
+		#print("Saved article #"+str(counter)+": "+url)
 
 	# to scraped list
 	scrapedLinks.add(url)
