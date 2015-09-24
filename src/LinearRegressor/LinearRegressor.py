@@ -35,6 +35,8 @@ class LinearRegressor:
 
     def predict(self, X):
 
+        [self.numObs, self.numVars] = X.shape
+
         X = np.concatenate((np.ones([self.numObs, 1]), X), axis=1)
 
         y = np.dot(X,self.w)
@@ -60,6 +62,12 @@ class LinearRegressor:
     def optimizeLeastSquares(self, X, t):
 
         I = np.eye(self.numVars+1)
+
+        # Q, R = np.linalg.qr(X)
+        #
+        # R = self.Lambda*I + R
+        #
+        # self.w = np.linalg.lstsq(R,np.dot(Q.T,t))[0]
 
         S = self.Lambda*I + np.dot(X.T,X);
 
