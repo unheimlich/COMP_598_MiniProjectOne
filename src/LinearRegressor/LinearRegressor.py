@@ -86,7 +86,7 @@ class LinearRegressor:
 
         iters = 0.0
 
-        while dLoss < -1e-6:
+        while dLoss < -1e-1:
 
             lr = self.alpha*(2**-(iters/4))
 
