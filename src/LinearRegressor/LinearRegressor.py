@@ -84,11 +84,14 @@ class LinearRegressor:
         T = np.dot(X.T,t)
 
 
-        iters = 0.0
+        iters = 0.
 
-        while dLoss < -1e-1:
+        max_iters = 1000.
 
-            lr = self.alpha*(2**-(iters/4))
+        while (dLoss < -1e-1) and (iters < max_iters):
+
+            #lr = self.alpha*(2**-(iters/4))
+            lr = self.alpha
 
             iters += 1
 
@@ -126,4 +129,5 @@ class LinearRegressor:
         lo = -hi
 
         self.w = np.random.uniform(lo, hi, [self.numVars+1,])
+        self.w[0] = 0
 
