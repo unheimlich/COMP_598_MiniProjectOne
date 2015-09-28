@@ -26,11 +26,12 @@ class LinearRegressor:
         if optimization is 'LeastSquares':
 
             self.optimizeLeastSquares(X, t)
-            self.evalLoss(X, t)
+            self.evalError(X, t)
 
         elif optimization is 'GradientDescent':
 
             self.optimizeGradientDescent(X, t)
+            self.evalError(X, t)
 
 
     def predict(self, X):
@@ -76,7 +77,7 @@ class LinearRegressor:
     def optimizeGradientDescent(self, X, t):
 
         self.initWeights()
-        self.evalLoss(X, t)
+        self.evalError(X, t)
 
         dLoss = -1
 
@@ -86,11 +87,11 @@ class LinearRegressor:
 
         iters = 0.
 
-        max_iters = 1000.
+        max_iters = 10000.
 
-        while (dLoss < -1e-1) and (iters < max_iters):
+        while (dLoss < -1e-3) and (iters < max_iters):
 
-            #lr = self.alpha*(2**-(iters/4))
+            #lr = self.alpha*(2**-(iters/30))
             lr = self.alpha
 
             iters += 1
@@ -100,14 +101,18 @@ class LinearRegressor:
 
             dE = (np.dot(S ,self.w) - T + self.Lambda*self.w)/self.numObs
 
-            #y = np.dot(X, self.w)
+            #I = np.random.choice(range(0, self.numObs), [self.numObs,],replace=0)
+            #Xs = X[I]
+            #ts = t[I]
+
+            #y = np.dot(Xs, self.w)
 
             #for i in range(0, self.numObs-1):
-                #self.w += self.alpha*(t[i] - y[i])*X[i, :].T
+                #self.w += self.alpha*(ts[i] - y[i])*Xs[i, :].T
 
             self.w -= lr*dE
 
-            self.evalLoss(X, t)
+            self.evalError(X, t)
 
             dLoss = self.loss - last_loss
 
@@ -119,13 +124,22 @@ class LinearRegressor:
 
     def evalLoss(self, X, t):
 
-        e = np.power(np.power(t - np.dot(X, self.w), 2.0), 0.5)
+        #e = np.power(np.power(t - np.dot(X, self.w), 2.0), 0.5)
 
-        self.loss = np.mean(e, axis=0, dtype=np.float64)
+        self.loss = 0.5*sum(t - np.dot(X,self.w)) + 0.5*self.Lambda*np.dot(self.w.T,self.w)
+
+        #self.loss = np.mean(e, axis=0, dtype=np.float64)
+
+    def evalError(self,X,t):
+
+        y = np.dot(X,self.w)
+
+        self.loss = np.mean(np.abs(t-y), axis=0, dtype=np.float64)
 
     def initWeights(self):
 
         hi = np.sqrt(12)/self.numVars+1
+        #hi = 50
         lo = -hi
 
         self.w = np.random.uniform(lo, hi, [self.numVars+1,])
