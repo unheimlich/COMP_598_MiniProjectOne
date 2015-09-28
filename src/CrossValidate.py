@@ -78,4 +78,50 @@ def runcrossval(optimization, regularization, learningrate, preprocessing):
     valid_error = np.mean(np.abs(y-t),axis=0,dtype=np.float64)
     train_error = train_error/5
 
-    return train_error, valid_error
+    return train_error, valid_error, y, t
+
+def test(optimization, regularization, learningrate, preprocessing):
+
+    ds = pd.read_csv('data/PartOne/OnlineNewsPopularity_training.csv')
+    X_train = ds.values[:, 1:60]
+    t_train = ds.values[:, 60]
+
+    ds = pd.read_csv('data/PartOne/OnlineNewsPopularity_test.csv')
+    X_test = ds.values[:, 1:60]
+    t_test = ds.values[:, 60]
+
+    lr = LR.LinearRegressor()
+
+    if preprocessing is '':
+
+        D_test = X_test
+        D_train = X_train
+
+    elif preprocessing is 'center':
+
+        pp = PP.Preprocessor()
+        pp.train(X_train)
+        D_test = pp.center(X_test)
+        D_train = pp.center(X_train)
+
+    elif preprocessing is 'standardize':
+
+        pp = PP.Preprocessor()
+        pp.train(X_train)
+        D_test = pp.standardize(X_test)
+        D_train = pp.standardize(X_train)
+
+    elif preprocessing is 'whiten':
+
+        pp = PP.Preprocessor()
+        pp.train(X_train)
+        D_test = pp.whiten(X_test)
+        D_train = pp.whiten(X_train)
+
+    lr.train(D_train, t_train, optimization, learningrate, regularization)
+
+    y = lr.predict(D_test)
+
+    test_error = np.mean(np.abs(y-t_test),axis=0,dtype=np.float64)
+
+    return test_error, lr.w, y, t_test
