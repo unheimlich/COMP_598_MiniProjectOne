@@ -11,8 +11,8 @@ def separateTestSet(f, x):
     # leave out x*100% as a test set
     testindices = np.random.randint(0,ds.shape[0]-1,np.floor(ds.shape[0]/x)) #get a random set of indices, size n/5
     # create new csv's, test set set aside
-    ds.iloc[testindices].to_csv(f.replace(".csv","")+"_test.csv", index=False)  
-    ds.drop(testindices).to_csv(f.replace(".csv","")+"_training.csv", index=False)    
+    ds.iloc[testindices].to_csv(f.replace(".csv","")+"_test.csv")  
+    ds.drop(testindices).to_csv(f.replace(".csv","")+"_training.csv")    
 
 
 def kfoldlabel(f, k):
