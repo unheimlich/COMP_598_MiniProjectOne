@@ -7,7 +7,7 @@ class Preprocessor:
 
         self.mu = 0
         self.sigma = 0
-        self.L = 0
+        self.S = 0
         self.V = 0
 
 
@@ -16,6 +16,15 @@ class Preprocessor:
 
         self.mu = np.nanmean(X, axis=0, dtype=np.float64)
         self.sigma = np.nanstd(X, axis=0, dtype=np.float64)
+
+        D = (X - self.mu)/self.sigma
+
+        u, s, v = np.linalg.svd(D, full_matrices=0)
+
+        idx = s >= np.finfo(np.float).resolution*D.shape[0]
+
+        self.S = np.diag(s[idx])
+        self.V = v[:, idx]
 
     def center(self, X):
 
@@ -28,5 +37,6 @@ class Preprocessor:
     #ToDo: enable
     def whiten(self, X):
 
-        S = (X - self.mu)/self.sigma
-        return S
+        s = (X - self.mu)/self.sigma
+
+        return np.linalg.lstsq(np.sqrt(self.S), np.dot(self.V.T, s.T))[0].T
