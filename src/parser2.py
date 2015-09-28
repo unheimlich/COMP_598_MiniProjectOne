@@ -46,8 +46,8 @@ n_videos = 0
 
 # timedelta
 date = soup.find("span","article-timestamp article-timestamp-published")
-published = datetime.strptime(date.text, '\nPublished:\n  %H:%M GMT, %d %B %Y\n')
-print (published)
+published = datetime.strptime(date.text, '\n  Published:\n  %H:%M GMT, %d %B %Y\n')
+#print (published)
 td = datetime.now()-published
 timedel = td.days
 
@@ -70,19 +70,21 @@ else:
 	is_weekend = 1
 
 # n_hrefs & n_self_hrefs
-for link in soup.find_all("ul","rotator-panels link-bogr1 linkro-ccox"):
-	n_self_hrefs += 1
+panel = soup.find("ul","rotator-panels link-bogr1 linkro-ccox")
+#print (panel)
+try:
+	for x in panel.find_all("href"):
+		#print ("hrefs: \n",x.text)
+		n_self_hrefs += 1
+except AttributeError as noPanels:
+	print ("something is wrong.")
 
 # n_imgs
-images = soup.find_all("div", class_="image-wrap")
-for img in images:
-    print ("img: ", img.children)
+for img in soup.find_all("div", class_="mol-img"):
     n_imgs += 1
 
 # n_videos
-videos = soup.find_all("div", class_="moduleFull mol-video")
-for vid in videos:
-    print ("vid: ",vid.children)
+for vid in soup.find_all("div", class_="moduleFull mol-video"):
     n_videos += 1
 
 
