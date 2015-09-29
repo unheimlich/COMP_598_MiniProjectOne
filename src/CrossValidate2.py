@@ -36,7 +36,7 @@ def kfoldlabel(f, k):                           # Divides the training set into 
 
 def runcrossval(optimization, regularization, learningrate, preprocessing):
 
-    ds = pd.read_csv('data/PartTwo/OnlineNewsPopularity_training_5-fold.csv')
+    ds = pd.read_csv('data/PartTwo/DailyMailArticlePopularity_training_5-fold.csv')
     X = ds.values[:, 2:31]
     t = ds.values[:, 31]
 
