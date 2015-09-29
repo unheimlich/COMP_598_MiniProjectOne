@@ -85,6 +85,7 @@ def test(optimization, regularization, learningrate, preprocessing):
     ds = pd.read_csv('data/PartOne/OnlineNewsPopularity_training.csv')
     X_train = ds.values[:, 1:60]
     t_train = ds.values[:, 60]
+    #t_train = ds.as_matrix(60)
 
     ds = pd.read_csv('data/PartOne/OnlineNewsPopularity_test.csv')
     X_test = ds.values[:, 1:60]
@@ -124,4 +125,4 @@ def test(optimization, regularization, learningrate, preprocessing):
 
     test_error = np.mean(np.abs(y-t_test),axis=0,dtype=np.float64)
 
-    return test_error, lr.w, y, t_test
+    return test_error, lr.w, y, t_test, lr.w
