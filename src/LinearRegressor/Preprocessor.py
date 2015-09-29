@@ -21,7 +21,8 @@ class Preprocessor:
 
         u, s, v = np.linalg.svd(D, full_matrices=0)
 
-        idx = s >= np.finfo(np.float).resolution*D.shape[0]
+        idx = s >= np.finfo(s[0]).resolution*D.shape[0]
+        #idx = s >= np.finfo(np.float).resolution*s[0]
 
         self.S = np.diag(s[idx])
         self.V = v[:, idx]
@@ -39,4 +40,4 @@ class Preprocessor:
 
         s = (X - self.mu)/self.sigma
 
-        return np.linalg.lstsq(np.sqrt(self.S), np.dot(self.V.T, s.T))[0].T
+        return np.linalg.lstsq(self.S, np.dot(self.V.T, s.T))[0].T
