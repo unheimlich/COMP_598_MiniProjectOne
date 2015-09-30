@@ -4,10 +4,10 @@ Attribute Information:
 2. n_tokens_title: Number of words in the title 
 3. n_tokens_content: Number of words in the content 
 4. n_unique_tokens: Rate of unique words in the content 
-5. num_hrefs: Number of links 
-6. num_self_hrefs: Number of links to other articles published by Mashable 
-7. num_imgs: Number of images 
-8. num_videos: Number of videos 
+5. num_hrefs: Number of links 	
+6. num_self_hrefs: Number of links to other articles published by Mashable 	
+7. num_imgs: Number of images 	
+8. num_videos: Number of videos 	
 9. average_token_length: Average length of the words in the content 
 10. num_keywords: Number of keywords in the metadata 
 11. data_channel_is_news: Is data channel 'News'? 

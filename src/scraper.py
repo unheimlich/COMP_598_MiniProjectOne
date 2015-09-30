@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 
 #
-# FILE AND AUTHOR INFO HERE 
+# @author Kyle Brumsted
 #
+# This program scrapes the static HTML recursively starting at the link provided in the url variable.
 
 # import libraries 
 import urllib, htmllib, re, sys
@@ -18,8 +19,8 @@ url = "http://www.dailymail.co.uk/home/index.html"
 unscrapedLinks = set([url])
 scrapedLinks = set([])
 counter = 0
-limit = 200
-path = "/Volumes/SeagateBackup/scraped/" 	#"/Users/kylebrumsted/Documents/School/Fall2015/COMP598/Project1/scraped/"
+limit = 100000
+path = "/Volumes/SeagateBackup/scraped3/" 	#"/Users/kylebrumsted/Documents/School/Fall2015/COMP598/Project1/scraped/"
 #path = "../data/PartTwo/scraped"
 urlPrefix = "http://www.dailymail.co.uk"
 
@@ -31,11 +32,18 @@ while unscrapedLinks:
 
 	# remove top item from set
 	url = unscrapedLinks.pop()
+	if 'popup' in url:
+		scrapedLinks.add(url)
+		continue
 
 	# try to open connection to website
 	try:
 		website = urllib.urlopen(url)
-	except IOError, InvalidURL:
+	except IOError:
+		print("[Scraper]:: Encountered malformed URL: "+url+". Will continue scraping...")
+		scrapedLinks.add(url)
+		continue
+	except Exception:
 		print("[Scraper]:: Encountered malformed URL: "+url+". Will continue scraping...")
 		scrapedLinks.add(url)
 		continue
