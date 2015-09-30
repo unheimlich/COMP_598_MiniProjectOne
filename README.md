@@ -12,11 +12,11 @@ SETUP
 
 In terminal:
 
-$ mkdir foo
-$ cd foo
-$ git clone https://github.com/unheimlich/COMP_598_MiniProjectOne.git
-$ cd COMP_598_MiniProjectOne
-$ python
+1. $ mkdir foo
+2. $ cd foo
+3. $ git clone https://github.com/unheimlich/COMP_598_MiniProjectOne.git
+4. $ cd COMP_598_MiniProjectOne
+5. $ python
 
 PART ONE
 
