@@ -31,11 +31,11 @@ PART ONE
 2. Run a cross validation set
     
     optimization = 'LeastSquares'     # 'LeastSquares', 'GradientDescent'
-    lambda = 0.0                      # L2 regularization constant: float >= 0
+    lmda = 0.0                      # L2 regularization constant: float >= 0
     alpha = 0.0                       # Learning Rate: float >= 0
     preprocess = ''                   # '', 'center', 'standardize', 'whiten'
 
-    train_rmse, validation_rmse, y_train, t_train = cv.runcrossval(optimization, lambda, alpha, preprocess)
+    train_rmse, validation_rmse, y_train, t_train = cv.runcrossval(optimization, lmda, alpha, preprocess)
     
 3. Evaluate Test Error
 
@@ -54,11 +54,11 @@ PART TWO
 2. Run a cross validation set
     
     optimization = 'LeastSquares'     # 'LeastSquares', 'GradientDescent'
-    lambda = 0.0                      # L2 regularization constant: float >= 0
+    lmda = 0.0                      # L2 regularization constant: float >= 0
     alpha = 0.0                       # Learning Rate: float >= 0
     preprocess = ''                   # '', 'center', 'standardize', 'whiten'
 
-    train_rmse, validation_rmse, y_train, t_train = cv.runcrossval(optimization, lambda, alpha, preprocess)
+    train_rmse, validation_rmse, y_train, t_train = cv2.runcrossval(optimization, lmda, alpha, preprocess)
     
 3. Evaluate Test Error
 
