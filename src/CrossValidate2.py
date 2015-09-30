@@ -83,12 +83,12 @@ def runcrossval(optimization, regularization, learningrate, preprocessing):
 
 def test(optimization, regularization, learningrate, preprocessing):
 
-    ds = pd.read_csv('data/PartOne/OnlineNewsPopularity_training.csv')
+    ds = pd.read_csv('data/PartTwo/DailyMailArticlePopularity_training.csv')
     X_train = ds.values[:, 1:30]
     t_train = ds.values[:, 30]
     #t_train = ds.as_matrix(60)
 
-    ds = pd.read_csv('data/PartOne/OnlineNewsPopularity_test.csv')
+    ds = pd.read_csv('data/PartTwo/DailyMailArticlePopularity_test.csv')
     X_test = ds.values[:, 1:30]
     t_test = ds.values[:, 30]
 
