@@ -62,4 +62,4 @@ PART TWO
     
 3. Evaluate Test Error
 
-    test_rmse, w, y_test, t_test, w = cv.test(optimization, lambda, alpha, preprocess)
+    test_rmse, w, y_test, t_test, w = cv2.test(optimization, lambda, alpha, preprocess)
