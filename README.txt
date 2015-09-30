@@ -25,7 +25,7 @@ PART ONE
     import src.CrossValidate as cv
     
     filename = 'data/PartOne/OnlineNewsPopularity.csv'
-    cv.separaTestSet(filename, 5)                       # Set aside 20% for test
+    cv.separateTestSet(filename, 5)                       # Set aside 20% for test
     cv.kfoldlabel(filename, 5)                          # Create 5-fold cross validation indices
     
 2. Run a cross validation set
@@ -48,7 +48,7 @@ PART TWO
     import src.CrossValidate2 as cv2
     
     filename = 'data/PartTwo/DailyMailArticlePopularity.csv'
-    cv2.separaTestSet(filename, 5)                       # Set aside 20% for test
+    cv2.separateTestSet(filename, 5)                       # Set aside 20% for test
     cv2.kfoldlabel(filename, 5)                          # Create 5-fold cross validation indices
     
 2. Run a cross validation set
