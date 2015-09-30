@@ -75,7 +75,8 @@ def runcrossval(optimization, regularization, learningrate, preprocessing):
         y[I == i] = lr.predict(D[I == i, :])
         train_error += lr.loss
 
-    valid_error = np.mean(np.abs(y-t),axis=0,dtype=np.float64)
+    #valid_error = np.mean(np.abs(y-t),axis=0,dtype=np.float64)
+    valid_error =  np.sqrt(np.mean((t - y)**2, axis=0, dtype=np.float64),dtype=np.float64)
     train_error = train_error/5
 
     return train_error, valid_error, y, t
@@ -123,6 +124,7 @@ def test(optimization, regularization, learningrate, preprocessing):
 
     y = lr.predict(D_test)
 
-    test_error = np.mean(np.abs(y-t_test),axis=0,dtype=np.float64)
+    #test_error = np.mean(np.abs(y-t_test),axis=0,dtype=np.float64)
+    test_error = np.sqrt(np.mean((t_test - y)**2, axis=0, dtype=np.float64),dtype=np.float64)
 
     return test_error, lr.w, y, t_test, lr.w

@@ -37,10 +37,10 @@ def kfoldlabel(f, k):                           # Divides the training set into 
 def runcrossval(optimization, regularization, learningrate, preprocessing):
 
     ds = pd.read_csv('data/PartTwo/DailyMailArticlePopularity_training_5-fold.csv')
-    X = ds.values[:, 2:31]
-    t = ds.values[:, 31]
+    X = ds.values[:, 2:30]
+    t = ds.values[:, 30]
 
-    I = ds.values[:, 32]
+    I = ds.values[:, 31]
     y = np.zeros(X.shape[0])
 
     lr = LR.LinearRegressor()
@@ -76,21 +76,22 @@ def runcrossval(optimization, regularization, learningrate, preprocessing):
         y[I == i] = lr.predict(D[I == i, :])
         train_error += lr.loss
 
-    valid_error = np.mean(np.abs(y-t),axis=0,dtype=np.float64)
+    #valid_error = np.mean(np.abs(y-t),axis=0,dtype=np.float64)
+    valid_error =  np.sqrt(np.mean((t - y)**2, axis=0, dtype=np.float64),dtype=np.float64)
     train_error = train_error/5
 
     return train_error, valid_error, y, t
 
 def test(optimization, regularization, learningrate, preprocessing):
 
-    ds = pd.read_csv('data/PartOne/OnlineNewsPopularity_training.csv')
-    X_train = ds.values[:, 1:30]
-    t_train = ds.values[:, 30]
+    ds = pd.read_csv('data/PartTwo/DailyMailArticlePopularity_training.csv')
+    X_train = ds.values[:, 1:29]
+    t_train = ds.values[:, 29]
     #t_train = ds.as_matrix(60)
 
-    ds = pd.read_csv('data/PartOne/OnlineNewsPopularity_test.csv')
-    X_test = ds.values[:, 1:30]
-    t_test = ds.values[:, 30]
+    ds = pd.read_csv('data/PartTwo/DailyMailArticlePopularity_test.csv')
+    X_test = ds.values[:, 1:29]
+    t_test = ds.values[:, 29]
 
     lr = LR.LinearRegressor()
 
@@ -124,6 +125,7 @@ def test(optimization, regularization, learningrate, preprocessing):
 
     y = lr.predict(D_test)
 
-    test_error = np.mean(np.abs(y-t_test),axis=0,dtype=np.float64)
+    #test_error = np.mean(np.abs(y-t_test),axis=0,dtype=np.float64)
+    test_error = np.sqrt(np.mean((t_test - y)**2, axis=0, dtype=np.float64),dtype=np.float64)
 
     return test_error, lr.w, y, t_test, lr.w

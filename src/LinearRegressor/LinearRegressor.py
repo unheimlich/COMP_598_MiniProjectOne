@@ -67,15 +67,15 @@ class LinearRegressor:
         shape = 0.892974489438055
         scale = 3.802326072910595e+03
 
-        w = np.zeros((t.shape[0],1))
+        #w = np.zeros((t.shape[0],1))
 
-        for i in range(t.shape[0]):
-            w[i] = stats.gamma.pdf(t[i], shape, scale=scale)
+        #for i in range(t.shape[0]):
+            #w[i] = stats.gamma.pdf(t[i], shape, scale=scale)
 
-        w = w/w.max()
+        #w = w/w.max()
 
-        Xtw = (X*w).T
-        #Xtw = X.T
+        #Xtw = (X*w).T
+        Xtw = X.T
 
         I = np.eye(self.numVars+1)
 
@@ -90,24 +90,25 @@ class LinearRegressor:
 
         dLoss = -1
 
-        shape = 0.892974489438055
-        scale = 3.802326072910595e+03
+        #shape = 0.892974489438055
+        #scale = 3.802326072910595e+03
 
-        w = np.zeros((t.shape[0],1))
+       #w = np.zeros((t.shape[0],1))
 
-        for i in range(t.shape[0]):
-            w[i] = stats.gamma.pdf(t[i], shape, scale=scale)
+        #for i in range(t.shape[0]):
+          #  w[i] = stats.gamma.pdf(t[i], shape, scale=scale)
 
-        w = w/sum(w)
+       # w = w/sum(w)
 
-        Xtw = (X*w).T
+        #Xtw = (X*w).T
+        Xtw = X.T
 
         S = np.dot(Xtw,X)
         T = np.dot(Xtw,t)
 
         iters = 0.
 
-        max_iters = 1000.
+        max_iters = 10000.
 
         while (dLoss < -1e-1) and (iters < max_iters):
 
@@ -118,7 +119,7 @@ class LinearRegressor:
             last_w = self.w
             last_loss = self.loss
 
-            dE = np.dot(S, self.w) - T + self.Lambda*self.w
+            dE = (np.dot(S, self.w) - T)/self.numObs + self.Lambda*self.w
 
             self.w -= lr*dE
 
@@ -134,13 +135,14 @@ class LinearRegressor:
 
     def evalLoss(self, X, t):
 
-        self.loss = 0.5*sum(t - np.dot(X,self.w)) + 0.5*self.Lambda*np.dot(self.w.T, self.w)
+        self.loss = 0.5*sum((t - np.dot(X,self.w))**2) + 0.5*self.Lambda*np.dot(self.w.T, self.w)
 
     def evalError(self,X,t):
 
         y = np.dot(X,self.w)
 
-        self.loss = np.mean(np.abs(t-y), axis=0, dtype=np.float64)
+        #self.loss = np.mean(np.abs(t-y), axis=0, dtype=np.float64)
+        self.loss = np.sqrt(np.mean((t - y)**2, axis=0, dtype=np.float64),dtype=np.float64)
 
     def initWeights(self):
 
