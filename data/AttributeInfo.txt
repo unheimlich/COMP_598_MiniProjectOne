@@ -1,16 +1,16 @@
 Attribute Information: 
 0. url: URL of the article (non-predictive) 
-1. timedelta: Days between the article publication and the dataset acquisition 
+1. timedelta: Days between the article publication and the dataset acquisition    *
 2. n_tokens_title: Number of words in the title 
 3. n_tokens_content: Number of words in the content 
 4. n_unique_tokens: Rate of unique words in the content 
-5. num_hrefs: Number of links 	
-6. num_self_hrefs: Number of links to other articles published by Mashable 	
-7. num_imgs: Number of images 	
-8. num_videos: Number of videos 	
+5. num_hrefs: Number of links                                                     *
+6. num_self_hrefs: Number of links to other articles published by Mashable        *
+7. num_imgs: Number of images                                                     *
+8. num_videos: Number of videos                                                   *
 9. average_token_length: Average length of the words in the content 
 10. num_keywords: Number of keywords in the metadata 
-11. data_channel_is_news: Is data channel 'News'? 
+11. data_channel_is_news: Is data channel 'News'?   
 12. data_channel_is_ushome: Is data channel 'U.S.'? 
 13. data_channel_is_sport: Is data channel 'Sport'? 
 14. data_channel_is_tvshowbiz: Is data channel 'TV&Showbiz'? 
@@ -21,12 +21,12 @@ Attribute Information:
 19. data_channel_is_money: Is data channel 'Money'? 
 20. data_channel_is_video: Is data channel 'Video'? 
 21. data_channel_is_travel: Is data channel 'Travel'? 
-22. weekday_is_monday: Was the article published on a Monday? 
-23. weekday_is_tuesday: Was the article published on a Tuesday? 
-24. weekday_is_wednesday: Was the article published on a Wednesday? 
-25. weekday_is_thursday: Was the article published on a Thursday? 
-26. weekday_is_friday: Was the article published on a Friday? 
-27. weekday_is_saturday: Was the article published on a Saturday? 
-28. weekday_is_sunday: Was the article published on a Sunday? 
-29. is_weekend: Was the article published on the weekend?
+22. weekday_is_monday: Was the article published on a Monday?                   *
+23. weekday_is_tuesday: Was the article published on a Tuesday?             and below
+24. weekday_is_wednesday: Was the article published on a Wednesday?             *
+25. weekday_is_thursday: Was the article published on a Thursday?               *
+26. weekday_is_friday: Was the article published on a Friday?                   *
+27. weekday_is_saturday: Was the article published on a Saturday?               *
+28. weekday_is_sunday: Was the article published on a Sunday?                   *
+29. is_weekend: Was the article published on the weekend?                       *
 30. shares: Number of shares (target)

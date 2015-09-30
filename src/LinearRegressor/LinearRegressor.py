@@ -1,4 +1,6 @@
 import numpy as np
+import scipy.stats as stats
+
 __author__ = 'andrew'
 
 
@@ -26,11 +28,12 @@ class LinearRegressor:
         if optimization is 'LeastSquares':
 
             self.optimizeLeastSquares(X, t)
-            self.evalLoss(X, t)
+            self.evalError(X, t)
 
         elif optimization is 'GradientDescent':
 
             self.optimizeGradientDescent(X, t)
+            self.evalError(X, t)
 
 
     def predict(self, X):
@@ -61,17 +64,24 @@ class LinearRegressor:
 
     def optimizeLeastSquares(self, X, t):
 
+        shape = 0.892974489438055
+        scale = 3.802326072910595e+03
+
+        w = np.zeros((t.shape[0],1))
+
+        for i in range(t.shape[0]):
+            w[i] = stats.gamma.pdf(t[i], shape, scale=scale)
+
+        w = w/w.max()
+
+        Xtw = (X*w).T
+        #Xtw = X.T
+
         I = np.eye(self.numVars+1)
 
-        # Q, R = np.linalg.qr(X)
-        #
-        # R = self.Lambda*I + R
-        #
-        # self.w = np.linalg.lstsq(R,np.dot(Q.T,t))[0]
+        S = self.Lambda*I + np.dot(Xtw,X);
 
-        S = self.Lambda*I + np.dot(X.T,X);
-
-        self.w = np.linalg.lstsq(S,np.dot(X.T,t))[0]
+        self.w = np.linalg.lstsq(S,np.dot(Xtw,t))[0]
 
     def optimizeGradientDescent(self, X, t):
 
@@ -80,27 +90,35 @@ class LinearRegressor:
 
         dLoss = -1
 
-        S = np.dot(X.T,X)
-        T = np.dot(X.T,t)
+        shape = 0.892974489438055
+        scale = 3.802326072910595e+03
 
+        w = np.zeros((t.shape[0],1))
 
-        iters = 0.0
+        for i in range(t.shape[0]):
+            w[i] = stats.gamma.pdf(t[i], shape, scale=scale)
 
-        while dLoss < -1e-6:
+        w = w/sum(w)
 
-            lr = self.alpha*(2**-(iters/4))
+        Xtw = (X*w).T
+
+        S = np.dot(Xtw,X)
+        T = np.dot(Xtw,t)
+
+        iters = 0.
+
+        max_iters = 1000.
+
+        while (dLoss < -1e-1) and (iters < max_iters):
+
+            lr = self.alpha
 
             iters += 1
 
             last_w = self.w
             last_loss = self.loss
 
-            dE = (np.dot(S ,self.w) - T + self.Lambda*self.w)/self.numObs
-
-            #y = np.dot(X, self.w)
-
-            #for i in range(0, self.numObs-1):
-                #self.w += self.alpha*(t[i] - y[i])*X[i, :].T
+            dE = np.dot(S, self.w) - T + self.Lambda*self.w
 
             self.w -= lr*dE
 
@@ -116,14 +134,19 @@ class LinearRegressor:
 
     def evalLoss(self, X, t):
 
-        e = np.power(np.power(t - np.dot(X, self.w), 2.0), 0.5)
+        self.loss = 0.5*sum(t - np.dot(X,self.w)) + 0.5*self.Lambda*np.dot(self.w.T, self.w)
 
-        self.loss = np.mean(e, axis=0, dtype=np.float64)
+    def evalError(self,X,t):
+
+        y = np.dot(X,self.w)
+
+        self.loss = np.mean(np.abs(t-y), axis=0, dtype=np.float64)
 
     def initWeights(self):
 
-        hi = np.sqrt(12)/self.numVars+1
+        hi = np.sqrt(12)/(self.numVars+1)
         lo = -hi
 
         self.w = np.random.uniform(lo, hi, [self.numVars+1,])
+        self.w[0] = 0
 
