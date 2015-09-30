@@ -22,10 +22,10 @@ PART ONE
 
 1. Create test, validation, and training sets
     
-    import src.CrossCalidate as cv
+    import src.CrossValidate as cv
     
     filename = 'data/PartOne/OnlineNewsPopularity.csv'
-    cv.separaTetestSet(filename, 5)                     # Set aside 20% for test
+    cv.separaTestSet(filename, 5)                       # Set aside 20% for test
     cv.kfoldlabel(filename, 5)                          # Create 5-fold cross validation indices
     
 2. Run a cross validation set
@@ -45,10 +45,10 @@ PART TWO
 
 1. Create test, validation, and training sets
     
-    import src.CrossCalidate2 as cv2
+    import src.CrossValidate2 as cv2
     
     filename = 'data/PartTwo/DailyMailArticlePopularity.csv'
-    cv2.separaTetestSet(filename, 5)                     # Set aside 20% for test
+    cv2.separaTestSet(filename, 5)                       # Set aside 20% for test
     cv2.kfoldlabel(filename, 5)                          # Create 5-fold cross validation indices
     
 2. Run a cross validation set
